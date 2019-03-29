@@ -50,6 +50,14 @@ function renderShoppingList() {
     filteredItems = filteredItems.filter(item => !item.checked);
   }
 
+  // search form input matches the current STORE entry
+  $('.js-search-term').val(STORE.searchVal);
+
+  // if `searchVal` !null,reassign filteredItems to a version that has .searchVal string
+  if (STORE.searchVal) {
+    filteredItems = filteredItems.filter(item => item.name.includes(STORE.searchVal));
+  }
+
   // at this point, all filtering work has been done (or not done, if that's the current settings), so
   // we send our `filteredItems` into our HTML generation function 
   const shoppingListItemsString = generateShoppingItemsString(filteredItems);
@@ -137,7 +145,7 @@ function handleToggleHideFilter() {
   });
 }
 
-// Sets STORE.searchTerm to inputted param
+// Sets STORE.searchVal to inputted param
 function setSearchTerm(searchInput) {
   STORE.searchVal = searchInput;
 }
@@ -177,5 +185,5 @@ function handleShoppingList() {
   handleSearchClear();
 }
 
-//page loads, call `handleShoppingList`
+// when the page loads, call `handleShoppingList`
 $(handleShoppingList);
