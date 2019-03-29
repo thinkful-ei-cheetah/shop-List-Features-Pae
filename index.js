@@ -137,6 +137,32 @@ function handleToggleHideFilter() {
   });
 }
 
+// Sets STORE.searchTerm to inputted param
+function setSearchTerm(searchInput) {
+  STORE.searchVal = searchInput;
+}
+
+// Places an event listener on the search form to filter the item list
+function handleSearchSubmit() {
+  $('#js-search-term-form').on('submit', event => {
+    event.preventDefault();
+    const searchInput = $('.js-search-term').val();
+    setSearchTerm(searchInput);
+    renderShoppingList();
+    console.log('handle search submit ran')
+  });
+}
+
+// Places an event listener on the search term clear button to clear the input
+function handleSearchClear() {
+  $('#search-form-clear').on('click', () => {
+    $('.js-search-term').val('');
+    setSearchTerm('');
+    renderShoppingList();
+    console.log('handle search clear ran')
+  });
+}
+
 // this function will be our callback when the page loads. it's responsible for
 // initially rendering the shopping list, and activating our individual functions
 // that handle new item submission and user clicks on the "check" and "delete" buttons
@@ -147,7 +173,9 @@ function handleShoppingList() {
   handleItemCheckClicked();
   handleDeleteItemClicked();
   handleToggleHideFilter();
+  handleSearchSubmit();
+  handleSearchClear();
 }
 
-// when the page loads, call `handleShoppingList`
+//page loads, call `handleShoppingList`
 $(handleShoppingList);
